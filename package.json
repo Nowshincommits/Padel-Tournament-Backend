@@ -2,14 +2,28 @@
   "name": "padel-tournament-backend",
   "version": "1.0.0",
   "description": "padel-tournament-backend",
-  "main": "index.ts",
+  "main": "src/server.ts",
+  "type": "module",
   "license": "MIT",
   "dependencies": {
-    "typescript": "^5.9.3"
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "dotenv-expand": "^12.0.3",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "typescript": "^5.9.3",
+    "winston": "^3.19.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "winston-mongodb": "^7.0.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^7.7.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.5",
     "eslint": "^10.0.3",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2"
   }
 }
