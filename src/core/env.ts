@@ -1,0 +1,33 @@
+// do not add this in the index. We are parsing which will not work there
+import path from 'node:path'
+import process from 'node:process'
+import { config } from 'dotenv'
+import { expand } from 'dotenv-expand'
+import { z } from 'zod'
+
+expand(
+  config({
+    path: path.resolve(
+      process.cwd(),
+      process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
+    ),
+  }),
+)
+
+const EnvSchema = z.object({
+  NODE_ENV: z.string(),
+  API_VERSION: z.string(),
+})
+
+export type env = z.infer<typeof EnvSchema>
+
+// eslint-disable-next-line ts/no-redeclare
+const { data: env, error } = EnvSchema.safeParse(process.env)
+
+if (error) {
+  console.error('Invalid Env')
+  console.error(JSON.stringify(error.flatten().fieldErrors, null, 2))
+  process.exit(1)
+}
+
+export default env!

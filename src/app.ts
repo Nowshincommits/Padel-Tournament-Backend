@@ -1,5 +1,6 @@
 import express from 'express'
-import { corsConfig, helmetConfig } from './core/'
+import { corsConfig, helmetConfig } from './core'
+import env from './core/env'
 
 
 const app = express()
@@ -20,6 +21,6 @@ app.get('/', (req, res) => {
   })
 })
 
-app.use('/api/v1', routerV1)
+// app.use('/api/v1', routerV1)
 
 export default app
