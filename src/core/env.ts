@@ -17,6 +17,7 @@ expand(
 const EnvSchema = z.object({
   NODE_ENV: z.string(),
   API_VERSION: z.string(),
+  MONGODB_URL: z.string()
 })
 
 export type env = z.infer<typeof EnvSchema>
