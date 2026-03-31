@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser'
 import express from 'express'
 import { corsConfig, helmetConfig } from './core'
 import env from './core/env'
@@ -11,6 +12,7 @@ app.use(helmetConfig)
 
 // helmet
 
+app.use(cookieParser())
 app.get('/', (req, res) => {
   return res.json({
     messages: 'Server is Running',
@@ -20,7 +22,7 @@ app.get('/', (req, res) => {
     },
   })
 })
-
+app.use(express.json())
 app.use('/api/v1', routerV1)
 
 export default app
