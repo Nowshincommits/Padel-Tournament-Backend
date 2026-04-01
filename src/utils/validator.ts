@@ -52,9 +52,11 @@ export const validatorSchema: ValidatorSchema
           query: req.query,
           params: req.params,
         })
+        console.log(schema)
         next()
       }
       catch (error) {
+        console.log("error",error)
         if (res.headersSent)
           return
 
@@ -76,3 +78,4 @@ export const validatorSchema: ValidatorSchema
                   })
       }
     }
+    
