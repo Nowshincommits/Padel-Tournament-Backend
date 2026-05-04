@@ -33,11 +33,11 @@ async function connecttoDB() {
    } catch (error: unknown) {
        if(error instanceof Error){
         Logger.error(`Error on mongodb connection ${error}`)
-        // might creash Backend . Try avoiding this
+        // might crash Backend . Try avoiding this
         // need to replace with custom error
         throw new Error('error')
     }
-    Logger.error(`Unknown Error on mongodb connection`)
+    Logger.error('Unknown Error on mongodb connection')
     }
 }
 

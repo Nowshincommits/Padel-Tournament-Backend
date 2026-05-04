@@ -1,13 +1,13 @@
 
 // // for parsing
 // import { z, ZodError } from 'zod'
-// import { SyceRouterHandler } from "../types"
+// import { SyncRouterHandler } from "../types"
 // // type AnyZodObject = z.ZodObject<z.ZodRawShape>
 // type AnyZodObject = z.ZodObject<any>
 
-// type ValidatorSchema = (schema: AnyZodObject) => SyceRouterHandler
+// type ValidatorSchema = (schema: AnyZodObject) => SyncRouterHandler
 // // any should not be used
-// export const validatorSchema: ValidatorSchema = (schema): SyceRouterHandler => async (req, res, next) => {
+// export const validatorSchema: ValidatorSchema = (schema): SyncRouterHandler => async (req, res, next) => {
 //       try {
 //             //      parsing what is in the body
 //             schema.parse({
@@ -36,15 +36,18 @@
 //       }
 // }
 import type { z } from 'zod'
-import type { SyceRouterHandler } from '../types'
+import type { SyncRouterHandler } from '../types'
 import { ZodError } from 'zod'
+import * as status from '../libs/Https-Status-code/http-status-code'
+import { SendResponse } from '../core/response'
+
 
 // type AnyZodObject = z.ZodObject<z.ZodRawShape>
 type AnyZodObject = z.ZodType<any>
 
-type ValidatorSchema = (schema: AnyZodObject) => SyceRouterHandler
+type ValidatorSchema = (schema: AnyZodObject) => SyncRouterHandler
 export const validatorSchema: ValidatorSchema
-  = (schema): SyceRouterHandler =>
+  = (schema): SyncRouterHandler =>
     async (req, res, next) => {
       try {
         schema.parse({
@@ -52,11 +55,9 @@ export const validatorSchema: ValidatorSchema
           query: req.query,
           params: req.params,
         })
-        console.log(schema)
         next()
       }
       catch (error) {
-        console.log("error",error)
         if (res.headersSent)
           return
 
@@ -64,16 +65,18 @@ export const validatorSchema: ValidatorSchema
         if (error instanceof ZodError) {
            // 400 : server bad request
 //                   //  not sending any data
-                  res.status(400).json({
+                     SendResponse.badRequest({
+                        res,
                         success: false,
                         messages: 'Invalid request.',
-                        data: {},
+                        data: error.format(),
                   })
         }
 
-                         res.status(400).json({
+                    SendResponse.error({
+                        res,
                         success: false,
-                        messages: 'Invalid request.',
+                        messages: 'Something went wrong.',
                         data: {},
                   })
       }

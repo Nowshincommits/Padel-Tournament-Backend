@@ -11,7 +11,7 @@ import argon2 from 'argon2'
 // we can run an operation in preset before saving
 // async function
 @pre<User>('save', async function () {
-
+// if password is not given
   if (!this.isModified('password')) {
     return
   }
